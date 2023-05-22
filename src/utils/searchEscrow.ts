@@ -46,7 +46,7 @@ export const searchEscrow = async (
   for (let i = 0; i < resultSearch.data.length; i++) {
     try {
       let blockCreateTime = 0;
-      if ((resultSearch.data[i].transactionInfo?.height!.compact() as Number) > 0) {
+      if ((resultSearch.data[i].transactionInfo?.height!.compact() as number) > 0) {
         const blockInfo = await firstValueFrom(
           blockRepo.getBlockByHeight(resultSearch.data[i].transactionInfo?.height!)
         );
