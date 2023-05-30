@@ -15,7 +15,7 @@ import { PayloadForOfflineSignature } from '@/types/PayloadForOfflineSignature';
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
-): PayloadForOfflineSignature | undefined {
+): void {
   if (req.method === 'POST') {
     const admin = Account.createFromPrivateKey(process.env.PRIVATE_KEY!, networkType);
     const clinetPublicAccount = PublicAccount.createFromPublicKey(
