@@ -2,9 +2,7 @@ import React from 'react';
 import { Box, Button, Typography, Card, CardContent, CardActions } from '@mui/material';
 import { useRouter } from 'next/router';
 import { TargetMetaData } from '@/types/TargetMetaData';
-function CardTarget(props: {
-  targetMetaData: TargetMetaData;
-}): JSX.Element {
+function CardTarget(props: { targetMetaData: TargetMetaData }): JSX.Element {
   const { targetMetaData } = props;
   const router = useRouter();
   return (
@@ -52,21 +50,21 @@ function CardTarget(props: {
         </Box>
       </CardContent>
       <CardActions>
-          <Box width={600} display={'flex'} justifyContent={'center'} mb={3}>
-            <Button
-              variant='contained'
-              size='small'
-              onClick={() =>
-                router.push({
-                  pathname: `/detail`,
-                  query: { targetAddress: targetMetaData.targetAddress },
-                })
-              }
-            >
-              詳細確認
-            </Button>
-          </Box>
-        </CardActions>
+        <Box width={600} display={'flex'} justifyContent={'center'} mb={3}>
+          <Button
+            variant='contained'
+            size='small'
+            onClick={() =>
+              router.push({
+                pathname: `/detail`,
+                query: { targetAddress: targetMetaData.targetAddress },
+              })
+            }
+          >
+            詳細確認
+          </Button>
+        </Box>
+      </CardActions>
     </Card>
   );
 }

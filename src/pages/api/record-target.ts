@@ -9,24 +9,23 @@ import {
   PublicAccount,
   TransferTransaction,
 } from 'symbol-sdk';
-import {
-  epochAdjustment,
-  generationHash,
-  networkType,
-} from '@/consts/blockchainProperty';
+import { epochAdjustment, generationHash, networkType } from '@/consts/blockchainProperty';
 import { PayloadForOfflineSignature } from '@/types/PayloadForOfflineSignature';
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse
-  ): PayloadForOfflineSignature | undefined {
-    if (req.method === 'POST') {
+): PayloadForOfflineSignature | undefined {
+  if (req.method === 'POST') {
     const admin = Account.createFromPrivateKey(process.env.PRIVATE_KEY!, networkType);
-    const clinetPublicAccount = PublicAccount.createFromPublicKey(req.body.clinetPublicKey, networkType);
+    const clinetPublicAccount = PublicAccount.createFromPublicKey(
+      req.body.clinetPublicKey,
+      networkType
+    );
     const targetAddressAccount = Address.createFromRawAddress(req.body.targetAddress);
-    const operation:string = req.body.operation;
-    const latitude:string = req.body.latitude;
-    const longitude:string = req.body.longitude;
+    const operation: string = req.body.operation;
+    const latitude: string = req.body.latitude;
+    const longitude: string = req.body.longitude;
 
     const operationTx = TransferTransaction.create(
       Deadline.create(epochAdjustment),
@@ -66,7 +65,7 @@ export default function handler(
         operationTx.toAggregate(clinetPublicAccount),
         latitudeTx.toAggregate(clinetPublicAccount),
         longitudeTx.toAggregate(clinetPublicAccount),
-        dummyTx.toAggregate(admin.publicAccount)
+        dummyTx.toAggregate(admin.publicAccount),
       ],
       networkType,
       []
@@ -80,10 +79,10 @@ export default function handler(
     const payloadForOfflineSignature: PayloadForOfflineSignature = {
       signedHash,
       signedPayload,
-    }
-    
+    };
+
     res.status(200).json({
-      payloadForOfflineSignature
+      payloadForOfflineSignature,
     });
   }
 }

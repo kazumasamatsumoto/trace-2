@@ -1,9 +1,4 @@
-import {
-  KeyGenerator,
-  MetadataType,
-  PublicAccount,
-  RepositoryFactoryHttp,
-} from 'symbol-sdk';
+import { KeyGenerator, MetadataType, PublicAccount, RepositoryFactoryHttp } from 'symbol-sdk';
 import { firstValueFrom } from 'rxjs';
 import { connectNode } from '@/utils/connectNode';
 import { nodeList } from '@/consts/nodeList';
@@ -19,26 +14,31 @@ export const searchTarget = async (): Promise<TargetMetaData[] | undefined> => {
     websocketInjected: WebSocket,
   });
   const metaRepo = repo.createMetadataRepository();
-  
+
   const res = await axios.get('/api/fetch-admin-pubkey');
-  const adminPublicKey:string = res.data;
-  const addminAddressAccount = PublicAccount.createFromPublicKey(adminPublicKey,networkType).address;
+  const adminPublicKey: string = res.data;
+  const addminAddressAccount = PublicAccount.createFromPublicKey(
+    adminPublicKey,
+    networkType
+  ).address;
 
-  const scopedMetadataKey = KeyGenerator.generateUInt64Key('metaData').toHex() //serialNumberを16進数文字列に変換
-  const resultSearch = await firstValueFrom(metaRepo.search({
-    metadataType: MetadataType.Account,
-    scopedMetadataKey: scopedMetadataKey,
-    sourceAddress: addminAddressAccount,
-    pageNumber: 1,
-    pageSize: 100
-  }));
+  const scopedMetadataKey = KeyGenerator.generateUInt64Key('metaData').toHex(); //serialNumberを16進数文字列に変換
+  const resultSearch = await firstValueFrom(
+    metaRepo.search({
+      metadataType: MetadataType.Account,
+      scopedMetadataKey: scopedMetadataKey,
+      sourceAddress: addminAddressAccount,
+      pageNumber: 1,
+      pageSize: 100,
+    })
+  );
 
-  const targetMetaDataList:TargetMetaData[] = []
+  const targetMetaDataList: TargetMetaData[] = [];
 
   for (let index = 0; index < resultSearch.data.length; index++) {
-    let targetMetaData = JSON.parse(resultSearch.data[index].metadataEntry.value)
-    targetMetaData['targetAddress'] = resultSearch.data[index].metadataEntry.targetAddress.plain()
-    targetMetaDataList.push(targetMetaData)
+    let targetMetaData = JSON.parse(resultSearch.data[index].metadataEntry.value);
+    targetMetaData['targetAddress'] = resultSearch.data[index].metadataEntry.targetAddress.plain();
+    targetMetaDataList.push(targetMetaData);
   }
 
   return targetMetaDataList;

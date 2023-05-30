@@ -22,16 +22,16 @@ export const getHistory = async (targetAddress: string): Promise<HistoryData[] |
   const txRepo = repo.createTransactionRepository();
   const blockRepo = repo.createBlockRepository();
 
-  const resultSearch = await firstValueFrom(txRepo.search({
-    type:[
-      TransactionType.AGGREGATE_COMPLETE,
-   ],
-    group: TransactionGroup.Confirmed,
-    address:Address.createFromRawAddress(targetAddress),
-    pageSize:100
-  }));
+  const resultSearch = await firstValueFrom(
+    txRepo.search({
+      type: [TransactionType.AGGREGATE_COMPLETE],
+      group: TransactionGroup.Confirmed,
+      address: Address.createFromRawAddress(targetAddress),
+      pageSize: 100,
+    })
+  );
 
-  const resultData:HistoryData[] = [];
+  const resultData: HistoryData[] = [];
   for (let i = 0; i < resultSearch.data.length; i++) {
     try {
       const blockInfo = await firstValueFrom(
@@ -39,12 +39,15 @@ export const getHistory = async (targetAddress: string): Promise<HistoryData[] |
       );
       const blockCreateTime = blockInfo.timestamp.compact() + epochAdjustment * 1000; //unixtime
       const txInfo = (await firstValueFrom(
-        txRepo.getTransaction(resultSearch.data[i].transactionInfo?.hash!, TransactionGroup.Confirmed)
+        txRepo.getTransaction(
+          resultSearch.data[i].transactionInfo?.hash!,
+          TransactionGroup.Confirmed
+        )
       )) as AggregateTransaction;
       const tx1 = txInfo?.innerTransactions[0] as TransferTransaction; //オペレーションを記録したトランザクション
       const tx2 = txInfo?.innerTransactions[1] as TransferTransaction; //緯度を記録したトランザクション
       const tx3 = txInfo?.innerTransactions[2] as TransferTransaction; //経度を記録したトランザクション
-      const histroyData:HistoryData = {
+      const histroyData: HistoryData = {
         signerAddress: tx1.signer?.address.plain()!,
         blockCreateTime: blockCreateTime,
         operation: tx1.message.payload,

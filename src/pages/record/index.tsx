@@ -3,7 +3,17 @@ import LeftDrawer from '@/components/LeftDrawer';
 import Header from '@/components/Header';
 import AlertsSnackbar from '@/components/AlertsSnackbar';
 import AlertsDialog from '@/components/AlertsDialog';
-import { Box, Typography, Button, Backdrop, CircularProgress, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Backdrop,
+  CircularProgress,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from '@mui/material';
 import axios from 'axios';
 import { useQRCode } from 'next-qrcode';
 import { QrCodeReader } from '@/components/QrCodeReader';
@@ -33,17 +43,17 @@ function Record(): JSX.Element {
     navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
   }, []);
 
-  function successCallback(position:GeolocationPosition){
+  function successCallback(position: GeolocationPosition) {
     setPosition(position);
-  };
-  function errorCallback(error:GeolocationPositionError){
+  }
+  function errorCallback(error: GeolocationPositionError) {
     console.log(error);
-    alert("位置情報の取得に失敗しました。位置情報の利用を許可して下さい");    
-  };
-  
+    alert('位置情報の取得に失敗しました。位置情報の利用を許可して下さい');
+  }
+
   const [position, setPosition] = useState<GeolocationPosition | undefined>(); //現在地情報
   const [operation, setOperation] = useState<string>('着荷'); //記録する作業内容
-  
+
   const [clinetAccount, setUserAccount] = useState<accountData | undefined>(); //アカウントの設定
 
   const { Image } = useQRCode();
@@ -74,8 +84,9 @@ function Record(): JSX.Element {
             },
           }
         );
-        
-        const payloadForOfflineSignature: PayloadForOfflineSignature | undefined = res.data.payloadForOfflineSignature;
+
+        const payloadForOfflineSignature: PayloadForOfflineSignature | undefined =
+          res.data.payloadForOfflineSignature;
         console.log(payloadForOfflineSignature);
 
         const transactionStatus: TransactionStatus | undefined = await offlineSignature(
@@ -170,8 +181,8 @@ function Record(): JSX.Element {
                   <InputLabel>内容を選択</InputLabel>
                   <Select
                     value={operation}
-                    label="Operation"
-                    onChange={(event)=>{
+                    label='Operation'
+                    onChange={(event) => {
                       setOperation(event.target.value as string);
                     }}
                   >

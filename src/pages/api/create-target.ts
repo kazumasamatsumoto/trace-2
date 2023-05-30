@@ -16,11 +16,7 @@ import {
 import { firstValueFrom } from 'rxjs';
 import { connectNode } from '@/utils/connectNode';
 import { nodeList } from '@/consts/nodeList';
-import {
-  epochAdjustment,
-  generationHash,
-  networkType,
-} from '@/consts/blockchainProperty';
+import { epochAdjustment, generationHash, networkType } from '@/consts/blockchainProperty';
 import { TransactionStatusWithAddress } from '@/types/TransactionStatusWithAddress';
 
 export default async function handler(

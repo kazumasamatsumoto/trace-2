@@ -14,9 +14,9 @@ function Home(): JSX.Element {
 
   useCheckAccount();
   useEffect(() => {
-      initaltargetMetaDataInputsList();
-      setProgress(false);
-  },[]);
+    initaltargetMetaDataInputsList();
+    setProgress(false);
+  }, []);
 
   const initaltargetMetaDataInputsList = async () => {
     const result = await searchTarget();
@@ -47,10 +47,7 @@ function Home(): JSX.Element {
           </Typography>
           {targetMetaDataList.map((targetMetaData, index) => (
             <Box key={index} mb={1}>
-              <CardTarget
-                key={index}
-                targetMetaData={targetMetaData}
-              />
+              <CardTarget key={index} targetMetaData={targetMetaData} />
             </Box>
           ))}
         </Box>

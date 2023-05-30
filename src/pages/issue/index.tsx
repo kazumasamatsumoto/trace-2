@@ -3,10 +3,18 @@ import LeftDrawer from '@/components/LeftDrawer';
 import Header from '@/components/Header';
 import AlertsSnackbar from '@/components/AlertsSnackbar';
 import AlertsDialog from '@/components/AlertsDialog';
-import { Box, Typography, Button, Backdrop, CircularProgress, FormControl, TextField, Stack } from '@mui/material';
+import {
+  Box,
+  Typography,
+  Button,
+  Backdrop,
+  CircularProgress,
+  FormControl,
+  TextField,
+  Stack,
+} from '@mui/material';
 import axios from 'axios';
 import { useQRCode } from 'next-qrcode';
-
 
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
@@ -31,7 +39,7 @@ function Issue(): JSX.Element {
     handleSubmit,
     formState: { errors },
   } = useForm<TargetMetaDataInputs>({
-    defaultValues: { serialNumber: '', name: '', amount: 1},
+    defaultValues: { serialNumber: '', name: '', amount: 1 },
   });
 
   const validationRules = {
@@ -218,9 +226,9 @@ function Issue(): JSX.Element {
                     />
                   )}
                 />
-              <Button variant='contained' type='submit'>
-                QRコードの作成
-              </Button>
+                <Button variant='contained' type='submit'>
+                  QRコードの作成
+                </Button>
               </Stack>
             </>
           )}

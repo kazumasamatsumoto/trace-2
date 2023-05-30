@@ -59,7 +59,7 @@ function Detail(): JSX.Element {
           <Typography component='div' variant='h6' mt={5} mb={1}>
             履歴詳細
           </Typography>
-          <TimeLine historyDataList={histroyDataList} />        
+          <TimeLine historyDataList={histroyDataList} />
           <Box width={500} display={'flex'} justifyContent={'space-around'} m={5}>
             <Button variant='outlined' size='small' onClick={() => router.push(`/`)}>
               一覧に戻る
