@@ -10,8 +10,8 @@ import {
   ListItemText,
 } from '@mui/material';
 import Home from '@mui/icons-material/Home';
-import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
-import HistoryIcon from '@mui/icons-material/History';
+import QrCodeIcon from '@mui/icons-material/QrCode';
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 
@@ -60,14 +60,14 @@ function LeftDrawer(props: {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  router.push('/escrow');
+                  router.push('/issue');
                   setOpenLeftDrawer(false);
                 }}
               >
                 <ListItemIcon>
-                  <ArrowCircleUpIcon />
+                  <QrCodeIcon />
                 </ListItemIcon>
-                <ListItemText primary={'取引要求'} />
+                <ListItemText primary={'QR発行'} />
               </ListItemButton>
             </ListItem>
           </List>
@@ -75,14 +75,14 @@ function LeftDrawer(props: {
             <ListItem disablePadding>
               <ListItemButton
                 onClick={() => {
-                  router.push('/history');
+                  router.push('/record');
                   setOpenLeftDrawer(false);
                 }}
               >
                 <ListItemIcon>
-                  <HistoryIcon />
+                  <QrCodeScannerIcon />
                 </ListItemIcon>
-                <ListItemText primary={'取引履歴'} />
+                <ListItemText primary={'作業記録'} />
               </ListItemButton>
             </ListItem>
           </List>{' '}

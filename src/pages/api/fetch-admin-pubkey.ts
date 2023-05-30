@@ -12,6 +12,6 @@ export default async function handler(
     const NODE = await connectNode(nodeList);
     if (NODE === '') return undefined;
     const admin = Account.createFromPrivateKey(process.env.PRIVATE_KEY!, networkType);
-    res.status(200).json(admin.address.plain());
+    res.status(200).json(admin.publicKey);
   }
 }

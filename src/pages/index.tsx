@@ -1,47 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import LeftDrawer from '@/components/LeftDrawer';
 import Header from '@/components/Header';
-import { Box, Typography, Backdrop, CircularProgress } from '@mui/material';
-import { PublicAccount, TransactionGroup } from 'symbol-sdk';
-import useSssInit from '@/hooks/useSssInit';
-import { networkType } from '@/consts/blockchainProperty';
-import { useRouter } from 'next/router';
-import { searchEscrow } from '@/utils/searchEscrow';
-import CardEscrowPartial from '@/components/CardEscrowPartial';
-import { escrowAggregateTransaction } from '@/types/escrowAggregateTransaction';
+import { Box, Typography, Backdrop, CircularProgress, Button } from '@mui/material';
+import useCheckAccount from '@/hooks/useCheckAccount';
+import { searchTarget } from '@/utils/searchTarget';
+import CardTarget from '@/components/CardTarget';
+import { TargetMetaData } from '@/types/TargetMetaData';
 
 function Home(): JSX.Element {
   //共通設定
   const [progress, setProgress] = useState<boolean>(true); //ローディングの設定
   const [openLeftDrawer, setOpenLeftDrawer] = useState<boolean>(false); //LeftDrawerの設定
-  const router = useRouter();
 
-  //SSS共通設定
-  const { clientPublicKey, sssState } = useSssInit();
-  const [clientAddress, setClientAddress] = useState<string>('');
-  const [escrowDataList, setescrowDataList] = useState<escrowAggregateTransaction[]>([]);
-
+  useCheckAccount();
   useEffect(() => {
-    if (sssState === 'ACTIVE') {
-      const clientPublicAccount = PublicAccount.createFromPublicKey(clientPublicKey, networkType);
-      setClientAddress(clientPublicAccount.address.plain());
-    } else if (sssState === 'INACTIVE' || sssState === 'NONE') {
-      router.push('/sss');
-    }
-  }, [clientPublicKey, sssState, router]);
-
-  useEffect(() => {
-    if (sssState === 'ACTIVE' && clientAddress !== '') {
-      initalescrowDataList();
+      initaltargetMetaDataInputsList();
       setProgress(false);
-    }
-  }, [clientAddress, sssState]);
+  },[]);
 
-  const initalescrowDataList = async () => {
-    const result = await searchEscrow(clientAddress, TransactionGroup.Partial);
+  const initaltargetMetaDataInputsList = async () => {
+    const result = await searchTarget();
     if (result === undefined) return;
-    setescrowDataList(result);
+    setTargetMetaDataList(result);
   };
+
+  const [targetMetaDataList, setTargetMetaDataList] = useState<TargetMetaData[]>([]); //アカウントの設定
 
   return (
     <>
@@ -60,15 +43,13 @@ function Home(): JSX.Element {
           flexDirection='column'
         >
           <Typography component='div' variant='h6' mt={5} mb={1}>
-            取引一覧
+            トレース一覧
           </Typography>
-
-          {escrowDataList.map((escrowData, index) => (
+          {targetMetaDataList.map((targetMetaData, index) => (
             <Box key={index} mb={1}>
-              <CardEscrowPartial
+              <CardTarget
                 key={index}
-                clientAddress={clientAddress}
-                escrowData={escrowData}
+                targetMetaData={targetMetaData}
               />
             </Box>
           ))}
