@@ -1,4 +1,4 @@
-import { KeyGenerator, MetadataType, PublicAccount, RepositoryFactoryHttp } from 'symbol-sdk';
+import { KeyGenerator, MetadataType, Order, PublicAccount, RepositoryFactoryHttp } from 'symbol-sdk';
 import { firstValueFrom } from 'rxjs';
 import { connectNode } from '@/utils/connectNode';
 import { nodeList } from '@/consts/nodeList';
@@ -30,6 +30,7 @@ export const searchTarget = async (): Promise<TargetMetaData[] | undefined> => {
       sourceAddress: addminAddressAccount,
       pageNumber: 1,
       pageSize: 100,
+      order: Order.Desc,
     })
   );
 
