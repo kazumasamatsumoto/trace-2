@@ -1,11 +1,7 @@
 import { BrowserQRCodeReader } from '@zxing/browser';
 import React, { FC, useEffect, useRef, useState } from 'react';
 import Result from '@zxing/library/esm/core/Result';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem/MenuItem';
-import Button from '@mui/material/Button/Button';
 import { useTheme } from '@mui/material/styles';
-import Typography from '@mui/material/Typography/Typography';
 
 type QrCodeReaderProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -55,7 +51,6 @@ export const QrCodeReader: FC<QrCodeReaderProps> = ({ onRead, setOpen }) => {
     return function cleanup() {
       mountedRef.current = false;
     };
-    // @ts-ignore
   }, [currentCamera, onRead]);
 
   return (
@@ -72,30 +67,6 @@ export const QrCodeReader: FC<QrCodeReaderProps> = ({ onRead, setOpen }) => {
         flexDirection: 'column',
       }}
     >
-      <Typography
-        variant='h6'
-        style={{ marginBottom: '1em', width: '90%', maxWidth: '1000px' }}
-        fontWeight='bold'
-        align='center'
-      >
-        QRコードを読み込んでください
-      </Typography>
-      {devices.length !== 0 && (
-        <Select
-          value={currentCamera === undefined ? devices[0]?.id : currentCamera}
-          onChange={(e) => {
-            setCurrentCamera(e.target.value);
-          }}
-          style={{ width: '90%', maxWidth: '1000px' }}
-        >
-          {devices.map((device, index) => (
-            <MenuItem value={device.id} key={index.toString()}>
-              {device.name}
-            </MenuItem>
-          ))}
-        </Select>
-      )}
-
       <video
         style={{
           width: '90%',
@@ -106,15 +77,12 @@ export const QrCodeReader: FC<QrCodeReaderProps> = ({ onRead, setOpen }) => {
         }}
         ref={videoRef}
       />
-      <Button
-        variant='contained'
-        color='primary'
+      <button
         style={{ width: '90%', maxWidth: '1000px' }}
         onClick={() => setOpen(false)}
-        size='large'
       >
         読み取りキャンセル
-      </Button>
+      </button>
     </div>
   );
 };
